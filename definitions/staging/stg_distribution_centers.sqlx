@@ -1,0 +1,9 @@
+config {
+  type: "table", 
+}
+
+SELECT id,
+    name AS center_name,
+    latitude,
+    longtitude
+FROM ${ref("distribution_centers")}
