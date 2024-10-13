@@ -1,5 +1,5 @@
 defaultProject: tw-rd-de-finn
 defaultLocation: asia-east1
-defaultDataset: dataform
+defaultDataset: dataform_staging_ecommerce
 defaultAssertionDataset: dataform_assertions
 dataformCoreVersion: 3.0.0

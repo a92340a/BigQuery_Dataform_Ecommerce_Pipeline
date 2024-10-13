@@ -1,0 +1,17 @@
+config {
+  type: "table", 
+  bigquery:{
+    labels: {
+            department: "data-team",
+            country: "taiwan"
+        }
+    },
+  tags: ["ec"]
+}
+
+SELECT id,
+    order_id,
+    product_id,
+    inventory_item_id,
+    ROUND(sale_price, 2) AS sale_price
+FROM ${ref("order_items")}

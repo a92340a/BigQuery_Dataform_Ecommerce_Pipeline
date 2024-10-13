@@ -1,0 +1,38 @@
+config {
+  type: "table", 
+  schema: "dataform_mart_online_behavior",
+  bigquery:{
+    labels: {
+            department: "data-team",
+            country: "taiwan"
+        }
+    },
+  tags: ["ec", "online_behavior"]
+}
+
+SELECT evt.id AS event_id,
+    evt.user_id,
+    evt.sequence_number,
+    evt.session_id,
+    evt.event_type,
+    DATE(evt.created_at) AS event_date,
+    EXTRACT(TIME FROM DATETIME(evt.created_at)) AS event_time,
+    EXTRACT(HOUR FROM DATETIME(evt.created_at)) AS event_hour,
+    evt.ip_address,
+    evt.browser,
+    evt.traffic_source,
+    evt.uri,
+    CASE WHEN usr.age >= 60 THEN ">60"
+      WHEN usr.age < 60 AND usr.age >=50 THEN "50~60"
+      WHEN usr.age < 50 AND usr.age >=40 THEN "40~50"
+      WHEN usr.age < 40 AND usr.age >=30 THEN "30~40"
+      WHEN usr.age < 30 AND usr.age >=20 THEN "20~30"
+      ELSE "<20" END AS age_range,
+    usr.gender,
+    usr.country,
+    usr.city,
+    usr.state,
+    usr.postal_code,
+FROM ${ref("stg_events")} AS evt
+LEFT JOIN ${ref("stg_users")} AS usr
+ON evt.user_id = usr.id

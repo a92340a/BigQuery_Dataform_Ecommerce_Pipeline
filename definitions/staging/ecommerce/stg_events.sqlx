@@ -1,0 +1,22 @@
+config {
+  type: "table", 
+  bigquery:{
+    labels: {
+            department: "data-team",
+            country: "taiwan"
+        }
+    },
+  tags: ["ec"]
+}
+
+SELECT id,
+    user_id,
+    sequence_number,
+    session_id,
+    DATETIME(created_at, "Asia/Taipei") AS created_at,
+    ip_address,
+    browser,
+    traffic_source,
+    uri,
+    event_type
+FROM ${ref("events")}

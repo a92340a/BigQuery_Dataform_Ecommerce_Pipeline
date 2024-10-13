@@ -8,8 +8,8 @@
   "users",
 ].forEach((name) =>
   declare({
-    database: "bigquery-public-data", 
-    schema: "thelook_ecommerce",
+    database: "tw-rd-de-finn", 
+    schema: "public_thelook_ecommerce",
     name,
   })
 );
