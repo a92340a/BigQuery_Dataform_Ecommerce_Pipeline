@@ -1,0 +1,30 @@
+config {
+  type: "table", 
+  schema: "dataform_mart_orders",
+  bigquery:{
+    labels: {
+            department: "data-team",
+            country: "taiwan"
+        }
+    },
+  tags: ["ec", "orders"]
+}
+
+SELECT 
+    ord.order_id,
+    ord.user_id,
+    ord.gender,
+    item.product_id,
+    item.id AS order_item_id,
+    ord.status,
+    ord.created_at,
+    ord.shipped_at,
+    ord.delivered_at,
+    ord.returned_at,
+    item.sale_price,
+    SUM(item.sale_price) OVER(partition by ord.order_id) AS order_amount,
+    CASE WHEN ord.status = "Complete" THEN SUM(item.sale_price) OVER(partition by ord.order_id) 
+      ELSE 0 END AS revenue
+FROM ${ref("stg_orders")} AS ord
+LEFT JOIN ${ref("stg_order_items")} AS item
+ON ord.order_id = item.order_id

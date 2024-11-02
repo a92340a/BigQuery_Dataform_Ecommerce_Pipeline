@@ -1,0 +1,23 @@
+config {
+  type: "table", 
+  bigquery:{
+    labels: {
+            department: "data-team",
+            country: "taiwan"
+        }
+    },
+  tags: ["ec"]
+}
+
+SELECT order_id,
+    user_id,
+    status,
+    gender,
+    DATETIME(created_at, "Asia/Taipei") AS created_at,
+    DATETIME(shipped_at, "Asia/Taipei") AS shipped_at,
+    DATETIME(delivered_at, "Asia/Taipei") AS delivered_at,
+    DATETIME(returned_at, "Asia/Taipei") AS returned_at,
+    num_of_item,
+    current_date("Asia/Taipei") as updated_at
+FROM ${ref("orders")}
+
