@@ -15,6 +15,8 @@ SELECT
     ord.user_id,
     ord.gender,
     item.product_id,
+    prd.category AS product_category,
+    prd.department AS product_department,
     item.id AS order_item_id,
     ord.status,
     ord.created_at,
@@ -28,3 +30,5 @@ SELECT
 FROM ${ref("stg_orders")} AS ord
 LEFT JOIN ${ref("stg_order_items")} AS item
 ON ord.order_id = item.order_id
+LEFT JOIN ${ref("stg_products")} AS prd
+ON item.product_id = prd.id

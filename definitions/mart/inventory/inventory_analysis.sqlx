@@ -22,7 +22,10 @@ SELECT inv.id AS inventory_id,
     ROUND(prd.retail_price, 2) AS product_retail_price,
     prd.department AS product_department,
     prd.sku AS product_sku,
-    prd.distribution_center_id AS product_distribution_center_id
+    dist.center_id AS distribution_center_id,
+    CONCAT(dist.latitude,",",dist.longitude) AS distribution_lat_long
 FROM ${ref("stg_inventory_items")}  AS inv
 LEFT JOIN ${ref("stg_products")} AS prd
 ON inv.product_id = prd.id
+LEFT JOIN ${ref("stg_distribution_centers")} AS dist
+ON prd.distribution_center_id = dist.center_id
